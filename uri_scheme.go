@@ -161,11 +161,12 @@ func NewResourceHandlerFromFS(fsys fs.FS) ResourceHandler {
 	}
 }
 func normalizePath(path string) string {
+	const prefix = "index.html/"
 	for len(path) > 0 && path[0] == '/' {
 		path = path[1:]
 	}
-	if strings.HasPrefix(path, "index.html/") {
-		path = path[len("index.html/"):]
+	if strings.HasPrefix(path, prefix) {
+		path = path[11:]
 	}
 	if strings.HasSuffix(path, "/") || path == "" {
 		path += "index.html"

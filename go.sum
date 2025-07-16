@@ -1,2 +1,4 @@
 github.com/ebitengine/purego v0.8.3 h1:K+0AjQp63JEZTEMZiwsI9g0+hAMNohwUOtY0RPGexmc=
 github.com/ebitengine/purego v0.8.3/go.mod h1:iIjxzd6CiRiOG0UyXP+V1+jWqUXVjPKLAI0mRfJZTmQ=
+github.com/millken/goid v1.0.0 h1:uts+yZ/mvIQ0ZHpesYprHHL5O3ONjf9I0gjDmjjE9gc=
+github.com/millken/goid v1.0.0/go.mod h1:I9kxUrGyFLQNZzTLKpnsIUcWUqG6uPj9HKFmku6+/ts=

@@ -4,7 +4,7 @@ import (
 	"runtime"
 	"sync"
 
-	"github.com/millken/wvapp/internal/goid"
+	"github.com/millken/goid"
 )
 
 var (

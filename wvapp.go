@@ -9,6 +9,8 @@ import (
 	"sync/atomic"
 	"time"
 	"unsafe"
+
+	"github.com/millken/goid"
 )
 
 type WindowPosition int32
@@ -104,6 +106,8 @@ func Run() {
 	runnerOnce.Do(func() {
 		runtime.LockOSThread()
 		mainScheduler.Start()
+		// 在真正的事件循环 goroutine（已绑定 OS 线程）上登记主线程 GID
+		gidOnce.Do(func() { mainGID = goid.Goid() })
 
 		for {
 			mainScheduler.PollTasks()

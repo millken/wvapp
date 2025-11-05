@@ -1,8 +1,8 @@
 package wvapp
 
 import (
-	"runtime"
 	"sync"
+	"sync/atomic"
 
 	"github.com/millken/goid"
 )
@@ -26,18 +26,15 @@ func NewScheduler() *Scheduler {
 }
 
 func (s *Scheduler) RunInMainThread(f func()) {
-	if !s.initialized {
-		s.Start()
-	}
+	// 使用 once.Do 做惰性初始化，避免竞态读取 initialized
+	s.Start()
 	s.tasks <- f
 }
 
 // Run a function in the main thread and return its result
 func (s *Scheduler) RunInMainThreadWithResult(f func() any) any {
-	gidOnce.Do(func() {
-		mainGID = goid.Goid()
-	})
-	if goid.Goid() == mainGID {
+	// 若主线程尚未登记（Run() 未启动），直接在当前 goroutine 执行，避免阻塞
+	if atomic.LoadInt64(&mainGID) == 0 || goid.Goid() == atomic.LoadInt64(&mainGID) {
 		return f()
 	}
 	resultCh := make(chan any, 1)
@@ -49,7 +46,6 @@ func (s *Scheduler) RunInMainThreadWithResult(f func() any) any {
 
 func (s *Scheduler) Start() {
 	s.once.Do(func() {
-		runtime.LockOSThread()
 		s.initialized = true
 	})
 }

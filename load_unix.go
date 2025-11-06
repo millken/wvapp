@@ -33,15 +33,6 @@ func libraryPath() string {
 			os.Setenv("WEBKIT_DISABLE_DMABUF_RENDERER", defaultDmabuf)
 		}
 
-		// JSC_SIGNAL_FOR_GC
-		// 仅在未设置时提供一个保守的默认值，可通过 WVAPP_JSC_SIGNAL 覆盖
-		if os.Getenv("JSC_SIGNAL_FOR_GC") == "" {
-			sig := os.Getenv("WVAPP_JSC_SIGNAL")
-			if sig == "" {
-				sig = "12" // 默认使用 12（SIGUSR2）
-			}
-			os.Setenv("JSC_SIGNAL_FOR_GC", sig)
-		}
 		name = "libwvapp.so"
 		paths = []string{wvappPath, dir}
 	case "darwin":

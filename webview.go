@@ -24,7 +24,8 @@ var (
 	webviewSetWindowPosition func(*Webview, WindowPosition)
 	webviewSetDebug          func(*Webview, bool)
 	webviewSetFullscreen     func(*Webview, bool)
-	webviewSetWindowButtons  func(*Webview, WindowButtonFlag)
+	webviewSetFrameless      func(*Webview, bool)
+	webviewBeginDragAt       func(*Webview, int, int)
 	webviewEvalJS            func(*Webview, uintptr)
 	webviewTerminate         func(*Webview)
 	webviewSetEventCallback  func(*Webview, uintptr, unsafe.Pointer)
@@ -46,7 +47,6 @@ func NewWebview(options *WindowOptions) (*Webview, error) {
 			MaxWidth:      1600,
 			MaxHeight:     1200,
 			ZoomLevel:     1.0,
-			ButtonFlags:   WindowButtonAll,
 			Position:      WindowPositionCenter,
 			Debug:         false,
 			Title:         "Webview",
@@ -72,7 +72,8 @@ func NewWebview(options *WindowOptions) (*Webview, error) {
 		purego.RegisterLibFunc(&webviewSetWindowPosition, handle, "webview_set_window_position")
 		purego.RegisterLibFunc(&webviewSetDebug, handle, "webview_set_debug")
 		purego.RegisterLibFunc(&webviewSetFullscreen, handle, "webview_set_fullscreen")
-		purego.RegisterLibFunc(&webviewSetWindowButtons, handle, "webview_set_window_buttons")
+		purego.RegisterLibFunc(&webviewSetFrameless, handle, "webview_set_frameless")
+		purego.RegisterLibFunc(&webviewBeginDragAt, handle, "webview_begin_drag_at")
 		purego.RegisterLibFunc(&webviewEvalJS, handle, "webview_eval_js")
 		purego.RegisterLibFunc(&webviewProcessEvents, handle, "webview_process_events")
 		purego.RegisterLibFunc(&webviewTerminate, handle, "webview_terminate")
@@ -109,7 +110,6 @@ func NewWebview(options *WindowOptions) (*Webview, error) {
 		maxWidth:      int32(options.MaxWidth),
 		maxHeight:     int32(options.MaxHeight),
 		zoomLevel:     options.ZoomLevel,
-		buttonFlags:   int32(options.ButtonFlags),
 		position:      int32(options.Position),
 		debug:         options.Debug,
 		title:         titlePtr,
@@ -185,8 +185,12 @@ func (w *Webview) SetFullscreen(fullscreen bool) {
 	mainScheduler.RunInMainThread(func() { webviewSetFullscreen(w, fullscreen) })
 }
 
-func (w *Webview) SetWindowButtons(buttons WindowButtonFlag) {
-	mainScheduler.RunInMainThread(func() { webviewSetWindowButtons(w, buttons) })
+func (w *Webview) SetFrameless(frameless bool) {
+	mainScheduler.RunInMainThread(func() { webviewSetFrameless(w, frameless) })
+}
+
+func (w *Webview) BeginDragAt(x, y int) {
+	mainScheduler.RunInMainThread(func() { webviewBeginDragAt(w, x, y) })
 }
 
 func (w *Webview) EvalJS(js string) {

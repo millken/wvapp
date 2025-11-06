@@ -143,6 +143,34 @@ func init() {
 		return nil, nil
 	}
 
+	UserFunctionRegistry["_go_runtime_setFrameless"] = func(ctx context.Context, wv *Webview, args []any) (result any, err error) {
+		if len(args) < 1 {
+			return nil, fmt.Errorf("missing frameless argument")
+		}
+		frameless, ok := args[0].(bool)
+		if !ok {
+			return nil, fmt.Errorf("invalid frameless argument")
+		}
+		wv.SetFrameless(frameless)
+		return nil, nil
+	}
+
+	UserFunctionRegistry["_go_runtime_beginDragAt"] = func(ctx context.Context, wv *Webview, args []any) (result any, err error) {
+		if len(args) < 2 {
+			return nil, fmt.Errorf("missing x or y arguments")
+		}
+		x, ok := args[0].(float64)
+		if !ok {
+			return nil, fmt.Errorf("invalid x argument")
+		}
+		y, ok := args[1].(float64)
+		if !ok {
+			return nil, fmt.Errorf("invalid y argument")
+		}
+		wv.BeginDragAt(int(x), int(y))
+		return nil, nil
+	}
+
 	UserFunctionRegistry["_go_runtime_maximizeWindow"] = func(ctx context.Context, wv *Webview, args []any) (result any, err error) {
 		wv.Maximize()
 		return nil, nil

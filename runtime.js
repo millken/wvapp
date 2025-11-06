@@ -122,6 +122,12 @@ window.runtime = {
     SetFullscreen: function(fullscreen) {
         return goCall('_go_runtime_setFullscreen', [fullscreen]);
     },
+    SetFrameless: function(frameless) {
+        return goCall('_go_runtime_setFrameless', [frameless]);
+    },
+    BeginDragAt: function(x, y) {
+        return goCall('_go_runtime_beginDragAt', [x, y]);
+    },
     MinimizeWindow: function() {
         return goCall('_go_runtime_minimizeWindow', []);
     },

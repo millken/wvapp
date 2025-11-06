@@ -23,28 +23,15 @@ const (
 	WindowPositionRightBottom
 )
 
-type WindowButtonFlag int32
-
-// 窗口按钮位掩码
-const (
-	WindowButtonUnDefined WindowButtonFlag = 0
-	WindowButtonMin       WindowButtonFlag = 1 << 0
-	WindowButtonMax       WindowButtonFlag = 1 << 1
-	WindowButtonClose     WindowButtonFlag = 1 << 2
-	WindowButtonNone      WindowButtonFlag = 1 << 3 // 无按钮
-	WindowButtonAll       WindowButtonFlag = WindowButtonMin | WindowButtonMax | WindowButtonClose
-)
-
 // 窗口选项结构体（仅用于初始化或批量设置）
 type WindowOptions struct {
 	Width            int
 	Height           int
-	MinWidth         int     // 最小宽度（0表示不限制）
-	MinHeight        int     // 最小高度（0表示不限制）
-	MaxWidth         int     // 最大宽度（0表示不限制）
-	MaxHeight        int     // 最大高度（0表示不限制）
-	ZoomLevel        float32 // 缩放级别（0表示默认缩放，1表示100%）
-	ButtonFlags      WindowButtonFlag
+	MinWidth         int            // 最小宽度（0表示不限制）
+	MinHeight        int            // 最小高度（0表示不限制）
+	MaxWidth         int            // 最大宽度（0表示不限制）
+	MaxHeight        int            // 最大高度（0表示不限制）
+	ZoomLevel        float32        // 缩放级别（0表示默认缩放，1表示100%）
 	Position         WindowPosition // 窗口位置
 	Debug            bool           // 是否开启开发者工具
 	Title            string         // 窗口标题
@@ -64,7 +51,6 @@ type cWebviewWindowOptions struct {
 	minHeight        int32
 	maxWidth         int32
 	maxHeight        int32
-	buttonFlags      int32
 	zoomLevel        float32
 	position         int32
 	_                [4]byte
